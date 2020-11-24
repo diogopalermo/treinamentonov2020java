@@ -24,6 +24,7 @@ public class CustomHANAColumnStoreDialect extends AbstractHANADialect {
         registerFunction("fuzzySimilarCalculationModeSearchCompare", new SQLFunctionTemplate(StandardBasicTypes.STRING, "'similarCalculationMode=searchCompare'"));
       
     }
+    
 
     @Override
 	protected boolean supportsAsciiStringTypes() {
