@@ -1,11 +1,8 @@
 package com.accenture.training.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.accenture.training.dto.ProductsTO;
 import com.accenture.training.service.ProductsService;
-import com.sap.cloud.security.xsuaa.token.Token;
 
 @RestController
 @RequestMapping("/Product")
@@ -26,7 +22,7 @@ public class ProductsController {
 
 	@Autowired
 	ProductsService service;
-	
+	/*
 	@GetMapping("testToken")
 	public Map<String, String> message(@AuthenticationPrincipal Token token) {
 		Map<String, String> result = new HashMap();
@@ -42,7 +38,7 @@ public class ProductsController {
 		result.put("scopes", String.valueOf(token.getScopes()));
 		return result;
 	}
-	
+	*/
 	@GetMapping("")
 	public List<ProductsTO> findAll(@RequestParam(value="keyword", required = false) String keyword, //
 			@RequestParam(value="fuzzy", required = false) boolean fuzzy //
