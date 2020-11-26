@@ -1,5 +1,7 @@
 package com.accenture.training.domain;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,14 +19,11 @@ public class ProductsEntity {
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
 	private String id;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+	
+	@Column(name = "\"VALIDFROM\"")
+	private LocalDateTime validFrom;
+	@Column(name = "\"VALIDTO\"")
+	private LocalDateTime validTo;
 
 	@Column(name = "\"NAME\"")
 	private String name;
@@ -32,20 +31,45 @@ public class ProductsEntity {
 	@Column(name = "\"MANUFACTURER\"")
 	private String manufacturer;
 
+	public String getId() {
+		return id;
+	}
+
+	public String getManufacturer() {
+		return manufacturer;
+	}
+	
+
 	public String getName() {
 		return name;
+	}
+
+	public LocalDateTime getValidFrom() {
+		return validFrom;
+	}
+
+	public LocalDateTime getValidTo() {
+		return validTo;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getManufacturer() {
-		return manufacturer;
+	public void setValidFrom(LocalDateTime validFrom) {
+		this.validFrom = validFrom;
 	}
 
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setValidTo(LocalDateTime validTo) {
+		this.validTo = validTo;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.accenture.training.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,17 +21,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.accenture.training.MyApplication;
 import com.accenture.training.dto.ProductsTO;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sap.cloud.security.xsuaa.http.HttpHeaders;
 
 //@ActiveProfiles(profiles = { "test" })
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -42,6 +46,9 @@ public class ProductsControllerTest {
 	@Autowired
 	private ProductsController controller;
 
+	@Autowired
+	private WebApplicationContext context;
+	
 	// Mock testing variables
 	private static MockMvc mockMvc;
 	private static ObjectMapper mapper;
@@ -51,6 +58,8 @@ public class ProductsControllerTest {
 		ProductsTO productsTO = new ProductsTO();
 		productsTO.setName("Product Test");
 		productsTO.setManufacturer("MAnufacturerTest");
+		productsTO.setValidFrom("2020-11-20T10:00:00");
+		productsTO.setValidTo("2020-11-21T10:00:00");
 		product = productsTO;
 	}
 
@@ -62,7 +71,13 @@ public class ProductsControllerTest {
 
 	@Before
 	public void setUpBefore() {
-		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+		mockMvc =  MockMvcBuilders.standaloneSetup(controller).build();
+				
+				/*MockMvcBuilders
+        .webAppContextSetup(context)
+        .apply(springSecurity())  
+        .build();*/
+		
 	}
 
 	@Test
@@ -73,7 +88,9 @@ public class ProductsControllerTest {
 		final MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/Product")
 				.characterEncoding(StandardCharsets.UTF_8.name()).contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(productAsByteArray);
-
+		request.header(HttpHeaders.AUTHORIZATION, "Basic ZGlvZ28uYS50b2JsZXJAYWNjZW50dXJlLmNvbTpTQHAuMjAxOA==");
+		
+		
 		final String result = mockMvc.perform(request).andDo(print()).andExpect(status().is(HttpStatus.OK.value()))
 				.andReturn().getResponse().getContentAsString();
 

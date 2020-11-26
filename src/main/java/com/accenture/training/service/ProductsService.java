@@ -1,5 +1,6 @@
 package com.accenture.training.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,12 +41,16 @@ public class ProductsService {
 	
 		
 		return result.stream().map(item -> {
+			
+			
 			return mapper.map(item, ProductsTO.class);
 		}).collect(Collectors.toList());
 	}
 
 	public ProductsTO save(ProductsTO product) {
-		ProductsEntity savedEntity = rep.save(mapper.map(product, ProductsEntity.class));
+		
+		ProductsEntity mappedEntity = mapper.map(product, ProductsEntity.class);
+		ProductsEntity savedEntity = rep.save(mappedEntity);
 		return mapper.map(savedEntity, ProductsTO.class);
 	}
 
