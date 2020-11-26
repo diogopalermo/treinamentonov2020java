@@ -24,9 +24,9 @@ import com.sap.cloud.security.xsuaa.token.TokenAuthenticationConverter;
 
 
 
-@EnableWebSecurity
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-
+//@EnableWebSecurity
+public class SpringSecurityConfig {//extends WebSecurityConfigurerAdapter {
+/*
 	@Autowired
 	XsuaaServiceConfiguration xsuaaServiceConfiguration;
 
@@ -71,5 +71,5 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		converter.setLocalScopeAsAuthorities(true);
 		return converter;
 	}
-
+*/
 }
